@@ -1,0 +1,20 @@
+{
+    "name": "soroosh/mvc-framework",
+    "description": "MVC Framework For Learning",
+    "authors": [
+        {
+            "name": "Soroosh Tanzadeh",
+            "email": "soroosh@ternobo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "./app"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.3",
+        "vlucas/phpdotenv": "^5.3",
+        "vlucas/valitron": "^1.4"
+    }
+}
