@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Request;
 use App\Core\Controller;
-use Illuminate\Support\Facades\Validator;
 
 class IndexController extends Controller
 {
