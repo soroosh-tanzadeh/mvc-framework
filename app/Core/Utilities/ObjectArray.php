@@ -39,13 +39,14 @@ class ObjectArray implements Countable, ArrayAccess, Iterator
 
     /**
      * @param $value
-     * @return void
+     * @return ObjectArray
      * @throws InvalidArgumentException
      */
-    public function add($value): void
+    public function add($value): ObjectArray
     {
         $this->validateObjectType($value);
         $this->iterator->append($value);
+        return $this;
     }
 
     /**
@@ -134,6 +135,12 @@ class ObjectArray implements Countable, ArrayAccess, Iterator
     {
         $this->iterator->rewind();
     }
+
+    public function getIterator(): ArrayIterator
+    {
+        return $this->iterator;
+    }
+
 
     /**
      * @param $object

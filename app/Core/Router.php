@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use Closure;
+use Exception;
 
 class Router
 {
@@ -41,7 +42,38 @@ class Router
         $this->routes['put'][$path] = $action;
     }
 
-    public function resolve()
+    private function call_controller_callback($callback): string
+    {
+        $functionToCall = "__invoke";
+        $controller = null;
+
+        if (gettype($callback) === 'string') {
+            $controller = new $callback();
+        } elseif (gettype($callback) === 'array') {
+            $functionToCall = $callback[1];
+            $controller = new $callback[0]();
+        } else {
+            throw new Exception("Invalid Router callback");
+        }
+
+        if ($controller instanceof Controller) {
+            $middlewares = $controller->getMiddlewares();
+            foreach ($middlewares as $key => $value) {
+                $middleware = $middlewares->current();
+                $goNext = $middleware->handle($this->request);
+                if (gettype($goNext) != "boolean") {
+                    return $goNext;
+                } elseif (!$goNext) {
+                    return "";
+                }
+            }
+
+            return call_user_func([$controller, $functionToCall], $this->request);
+        }
+        return "";
+    }
+
+    public function resolve(): void
     {
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
@@ -54,11 +86,8 @@ class Router
             exit;
         }
 
-        if (gettype($callback) === 'string') {
-            echo call_user_func([new $callback, "__invoke"], $this->request);
-        } elseif (gettype($callback) === 'array') {
-            $controller = new $callback[0];
-            echo call_user_func([$controller, $callback[1]], $this->request);
+        if (gettype($callback) === 'string' || gettype($callback) === 'array') {
+            echo $this->call_controller_callback($callback);
         } else {
             echo call_user_func($callback, $this->request);
         }

@@ -6,10 +6,10 @@ use App\Core\Http\Middleware;
 use App\Core\Request;
 use Closure;
 
-class SampleMiddleware extends Middleware
+class SecondMiddleware extends Middleware
 {
     public function handle(Request $request): bool
     {
-        return $request->has("id");
+        return true;
     }
 }
