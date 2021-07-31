@@ -2,9 +2,9 @@
 
 namespace App\Core;
 
+use App\Core\Utilities\ObjectArray;
+
 class Controller
 {
-    public function __invoke()
-    {
-    }
+    protected ObjectArray $middlewares;
 }

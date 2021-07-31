@@ -1,25 +1,12 @@
 <?php
 
-/** 
- * 
- * @return App\Core\Application
+/**
+ * Define Helper functions
  */
-function app()
-{
-    global $app;
-    return $app;
-}
+include_once __DIR__ . "/../helpers/application.php";
+include_once __DIR__ . "/../helpers/template.php";
 
-function env(string $option)
-{
-    return $_ENV[$option];
-}
-
-/** 
- * 
- * @return string
+/**
+ * Setup Routes
  */
-function view(string $view, array $data)
-{
-    return app()->view($view, $data);
-}
+include_once __DIR__ . "/../../routes/web.php";

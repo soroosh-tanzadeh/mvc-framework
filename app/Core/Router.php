@@ -2,30 +2,43 @@
 
 namespace App\Core;
 
-use function PHPSTORM_META\type;
-
 use Closure;
 
 class Router
 {
 
-    protected array $routes = [];
+    protected array $routes = [
+        "get" => [],
+        "post" => [],
+        "put" => [],
+        "delete" => [],
+    ];
     private Request $request;
 
 
-    public function __construct($request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    public function get($path, $action)
+    public function get(string $path, $action)
     {
         $this->routes['get'][$path] = $action;
     }
 
-    public function post($path, Closure $callback)
+    public function post($path, $action)
     {
-        $this->routes['post'][$path] = $callback;
+        $this->routes['post'][$path] = $action;
+    }
+
+    public function delete($path, $action)
+    {
+        $this->routes['delete'][$path] = $action;
+    }
+
+    public function put($path, $action)
+    {
+        $this->routes['put'][$path] = $action;
     }
 
     public function resolve()

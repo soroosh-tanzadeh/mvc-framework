@@ -12,7 +12,7 @@ class TemplateEngine
     public function __construct()
     {
         $this->twig =  new TwingEnvironment(new FilesystemLoader(__DIR__ . "/../../views"), [
-            'cache' => filter_var($_ENV["CACHE"], FILTER_VALIDATE_BOOLEAN) ? __DIR__ . "/../../storage/cache" : false,
+            'cache' => filter_var($_ENV["TEMPLATE_CACHE"], FILTER_VALIDATE_BOOLEAN) ? __DIR__ . "/../../storage/cache" : false,
         ]);
     }
 
