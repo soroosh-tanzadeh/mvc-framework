@@ -2,8 +2,10 @@
 
 namespace App\Core;
 
+use App\Core\Http\Request;
+use App\Core\Http\Router;
+use App\Core\Template\TemplateEngine;
 use Dotenv\Dotenv;
-use App\Core\TemplateEngine;
 
 
 class Application

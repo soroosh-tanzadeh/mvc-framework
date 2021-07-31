@@ -2,7 +2,8 @@
 
 namespace App\Core\Http;
 
-use App\Core\Request;
+use App\Core\Http\Request;
+
 
 abstract class Middleware
 {

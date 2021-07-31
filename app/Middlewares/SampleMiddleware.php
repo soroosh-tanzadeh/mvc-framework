@@ -2,9 +2,9 @@
 
 namespace App\Middlewares;
 
-use App\Core\Http\Middleware;
-use App\Core\Request;
 use Closure;
+use App\Core\Http\Request;
+use App\Core\Http\Middleware;
 
 class SampleMiddleware extends Middleware
 {

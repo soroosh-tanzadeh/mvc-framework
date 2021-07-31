@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Core\Request;
-use App\Core\Controller;
+use App\Core\Http\Controller;
+use App\Core\Http\Request;
 use App\Middlewares\SampleMiddleware;
 use App\Middlewares\SecondMiddleware;
 

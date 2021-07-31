@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\Http;
 
 use App\Core\Http\Middleware;
 use App\Core\Utilities\MiddlewareIterator;
