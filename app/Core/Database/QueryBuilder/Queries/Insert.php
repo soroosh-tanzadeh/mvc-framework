@@ -23,20 +23,20 @@ class Insert extends Base
     /**
      * InsertQuery constructor.
      *
-     * @param Query     $fluent
+     * @param Query     $mvcquerybuilder
      * @param string    $table
      * @param           $values
      *
      * @throws Exception
      */
-    public function __construct(Query $fluent, $table, $values)
+    public function __construct(Query $mvcquerybuilder, $table, $values)
     {
         $clauses = [
             'INSERT INTO'             => [$this, 'getClauseInsertInto'],
             'VALUES'                  => [$this, 'getClauseValues'],
             'ON DUPLICATE KEY UPDATE' => [$this, 'getClauseOnDuplicateKeyUpdate'],
         ];
-        parent::__construct($fluent, $clauses);
+        parent::__construct($mvcquerybuilder, $clauses);
 
         $this->statements['INSERT INTO'] = $table;
         $this->values($values);
@@ -124,7 +124,7 @@ class Insert extends Base
         $result = parent::execute();
 
         if ($result) {
-            return $this->fluent->getPdo()->lastInsertId($sequence);
+            return $this->mvcquerybuilder->getPdo()->lastInsertId($sequence);
         }
 
         return false;

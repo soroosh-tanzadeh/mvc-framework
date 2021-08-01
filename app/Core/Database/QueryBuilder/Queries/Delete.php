@@ -23,10 +23,10 @@ class Delete extends Common
     /**
      * Delete constructor
      *
-     * @param Query  $fluent
+     * @param Query  $mvcquerybuilder
      * @param string $table
      */
-    public function __construct(Query $fluent, string $table)
+    public function __construct(Query $mvcquerybuilder, string $table)
     {
         $clauses = [
             'DELETE FROM' => [$this, 'getClauseDeleteFrom'],
@@ -38,7 +38,7 @@ class Delete extends Common
             'LIMIT'       => null,
         ];
 
-        parent::__construct($fluent, $clauses);
+        parent::__construct($mvcquerybuilder, $clauses);
 
         $this->statements['DELETE FROM'] = $table;
         $this->statements['DELETE'] = $table;

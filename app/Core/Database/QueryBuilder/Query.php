@@ -44,10 +44,10 @@ class Query
     {
         $this->pdo = $pdo;
 
-        // if exceptions are already activated in PDO, activate them in Fluent as well
-        if ($this->pdo->getAttribute(PDO::ATTR_ERRMODE) === PDO::ERRMODE_EXCEPTION) {
-            $this->throwExceptionOnError(true);
-        }
+        // if exceptions are already activated in PDO, activate them in QueryBuilder as well
+        // if ($this->pdo->getAttribute(PDO::ATTR_ERRMODE) === PDO::ERRMODE_EXCEPTION) {
+        $this->throwExceptionOnError(true);
+        // }
 
         $this->structure = ($structure instanceof Structure) ? $structure : new Structure();
     }

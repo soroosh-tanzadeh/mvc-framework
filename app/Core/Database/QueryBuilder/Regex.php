@@ -88,7 +88,7 @@ class Regex
     }
 
     /**
-     * Match the first file outside of the Fluent source
+     * Match the first file outside of the QueryBuilder source
      *
      * @param string  $subject
      * @param ?array  $matches

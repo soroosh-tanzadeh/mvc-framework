@@ -21,7 +21,7 @@ abstract class Base implements IteratorAggregate
     private $object = false;
 
     /** @var Query */
-    protected $fluent;
+    protected $mvcquerybuilder;
 
     /** @var PDOStatement|null|bool */
     protected $result;
@@ -45,12 +45,12 @@ abstract class Base implements IteratorAggregate
     /**
      * BaseQuery constructor.
      *
-     * @param Query $fluent
+     * @param Query $mvcquerybuilder
      * @param       $clauses
      */
-    protected function __construct(Query $fluent, $clauses)
+    protected function __construct(Query $mvcquerybuilder, $clauses)
     {
-        $this->fluent = $fluent;
+        $this->mvcquerybuilder = $mvcquerybuilder;
         $this->clauses = $clauses;
         $this->result = null;
 
@@ -210,7 +210,7 @@ abstract class Base implements IteratorAggregate
      */
     protected function getStructure(): Structure
     {
-        return $this->fluent->getStructure();
+        return $this->mvcquerybuilder->getStructure();
     }
 
     /**
@@ -352,7 +352,7 @@ abstract class Base implements IteratorAggregate
      */
     protected function buildQuery()
     {
-        if ($this->fluent->convertWrite === true) {
+        if ($this->mvcquerybuilder->convertWrite === true) {
             $this->convertNullValues();
         }
 
@@ -382,7 +382,7 @@ abstract class Base implements IteratorAggregate
     {
         $parameters = [];
         foreach ($this->parameters as $clauses) {
-            if ($this->fluent->convertWrite === true) {
+            if ($this->mvcquerybuilder->convertWrite === true) {
                 $clauses = Utilities::convertSqlWriteValues($clauses);
             }
 
@@ -434,7 +434,7 @@ abstract class Base implements IteratorAggregate
             return (string)$value;
         }
 
-        return $this->fluent->getPdo()->quote($value);
+        return $this->mvcquerybuilder->getPdo()->quote($value);
     }
 
     /**
@@ -472,7 +472,7 @@ abstract class Base implements IteratorAggregate
      */
     private function prepareQuery($query): void
     {
-        $this->result = $this->fluent->getPdo()->prepare($query);
+        $this->result = $this->mvcquerybuilder->getPdo()->prepare($query);
 
         /*
          At this point, $result is a PDOStatement instance, or false.
@@ -485,10 +485,10 @@ abstract class Base implements IteratorAggregate
         */
 
         if ($this->result === false) {
-            $error = $this->fluent->getPdo()->errorInfo();
+            $error = $this->mvcquerybuilder->getPdo()->errorInfo();
             $this->message = "SQLSTATE: {$error[0]} - Driver Code: {$error[1]} - Message: {$error[2]}";
 
-            if ($this->fluent->exceptionOnError === true) {
+            if ($this->mvcquerybuilder->exceptionOnError === true) {
                 throw new Exception($this->message);
             }
         }
@@ -510,7 +510,7 @@ abstract class Base implements IteratorAggregate
             $error = $this->result->errorInfo();
             $this->message = "SQLSTATE: {$error[0]} - Driver Code: {$error[1]} - Message: {$error[2]}";
 
-            if ($this->fluent->exceptionOnError === true) {
+            if ($this->mvcquerybuilder->exceptionOnError === true) {
                 throw new Exception($this->message);
             }
 
@@ -531,7 +531,7 @@ abstract class Base implements IteratorAggregate
                 $this->currentFetchMode = PDO::FETCH_OBJ;
                 $result->setFetchMode($this->currentFetchMode);
             }
-        } elseif ($this->fluent->getPdo()->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE) === PDO::FETCH_BOTH) {
+        } elseif ($this->mvcquerybuilder->getPdo()->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE) === PDO::FETCH_BOTH) {
             $this->currentFetchMode = PDO::FETCH_ASSOC;
             $result->setFetchMode($this->currentFetchMode);
         }
@@ -544,8 +544,8 @@ abstract class Base implements IteratorAggregate
      */
     private function debug()
     {
-        if (!empty($this->fluent->debug)) {
-            if (!is_callable($this->fluent->debug)) {
+        if (!empty($this->mvcquerybuilder->debug)) {
+            if (!is_callable($this->mvcquerybuilder->debug)) {
                 $backtrace = '';
                 $query = $this->getQuery();
                 $parameters = $this->getParameters();
@@ -574,7 +574,7 @@ abstract class Base implements IteratorAggregate
                     echo $finalString;
                 }
             } else {
-                $debug = $this->fluent->debug;
+                $debug = $this->mvcquerybuilder->debug;
                 $debug($this);
             }
         }

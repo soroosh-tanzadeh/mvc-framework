@@ -20,10 +20,10 @@ class Update extends Common
     /**
      * UpdateQuery constructor
      *
-     * @param Query  $fluent
+     * @param Query  $mvcquerybuilder
      * @param string $table
      */
-    public function __construct(Query $fluent, string $table)
+    public function __construct(Query $mvcquerybuilder, string $table)
     {
         $clauses = [
             'UPDATE'   => [$this, 'getClauseUpdate'],
@@ -33,7 +33,7 @@ class Update extends Common
             'ORDER BY' => ', ',
             'LIMIT'    => null,
         ];
-        parent::__construct($fluent, $clauses);
+        parent::__construct($mvcquerybuilder, $clauses);
 
         $this->statements['UPDATE'] = $table;
 

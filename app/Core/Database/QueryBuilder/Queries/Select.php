@@ -18,10 +18,10 @@ class Select extends Common implements \Countable
     /**
      * SelectQuery constructor.
      *
-     * @param Query     $fluent
+     * @param Query     $mvcquerybuilder
      * @param           $from
      */
-    function __construct(Query $fluent, $from)
+    function __construct(Query $mvcquerybuilder, $from)
     {
         $clauses = [
             'SELECT'   => ', ',
@@ -35,7 +35,7 @@ class Select extends Common implements \Countable
             'OFFSET'   => null,
             "\n--"     => "\n--"
         ];
-        parent::__construct($fluent, $clauses);
+        parent::__construct($mvcquerybuilder, $clauses);
 
         // initialize statements
         $fromParts = explode(' ', $from);
@@ -122,7 +122,7 @@ class Select extends Common implements \Countable
 
         $row = $this->result->fetch($this->currentFetchMode, $cursorOrientation);
 
-        if ($this->fluent->convertRead === true) {
+        if ($this->mvcquerybuilder->convertRead === true) {
             $row = Utilities::stringToNumeric($this->result, $row);
         }
 
@@ -182,7 +182,7 @@ class Select extends Common implements \Countable
             return $this->buildSelectData($index, $indexAsArray);
         } else {
             if (($result = $this->execute()) !== false) {
-                if ($this->fluent->convertRead === true) {
+                if ($this->mvcquerybuilder->convertRead === true) {
                     return Utilities::stringToNumeric($result, $result->fetchAll());
                 } else {
                     return $result->fetchAll();
@@ -202,9 +202,9 @@ class Select extends Common implements \Countable
      */
     public function count()
     {
-        $fluent = clone $this;
+        $mvcquerybuilder = clone $this;
 
-        return (int)$fluent->select('COUNT(*)', true)->fetchColumn();
+        return (int)$mvcquerybuilder->select('COUNT(*)', true)->fetchColumn();
     }
 
     /**
@@ -214,7 +214,7 @@ class Select extends Common implements \Countable
      */
     public function getIterator()
     {
-        if ($this->fluent->convertRead === true) {
+        if ($this->mvcquerybuilder->convertRead === true) {
             return new \ArrayIterator($this->fetchAll());
         } else {
             return $this->execute();

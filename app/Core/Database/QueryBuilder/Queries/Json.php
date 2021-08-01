@@ -22,10 +22,10 @@ class Json extends Common
     /**
      * Json constructor
      *
-     * @param Query  $fluent
+     * @param Query  $mvcquerybuilder
      * @param string $table
      */
-    public function __construct(Query $fluent, string $table)
+    public function __construct(Query $mvcquerybuilder, string $table)
     {
         $clauses = [
             'SELECT'   => ', ',
@@ -39,7 +39,7 @@ class Json extends Common
             "\n--"     => "\n--",
         ];
 
-        parent::__construct($fluent, $clauses);
+        parent::__construct($mvcquerybuilder, $clauses);
 
         // initialize statements
         $tableParts = explode(' ', $table);
@@ -49,7 +49,7 @@ class Json extends Common
         $this->statements['SELECT'][] = '';
         $this->joins[] = $this->fromAlias;
 
-        if (isset($fluent->convertTypes) && $fluent->convertTypes) {
+        if (isset($mvcquerybuilder->convertTypes) && $mvcquerybuilder->convertTypes) {
             $this->convertTypes = true;
         }
     }
