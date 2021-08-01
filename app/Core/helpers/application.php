@@ -10,8 +10,3 @@ function app(): Application
 {
     return Application::$app;
 }
-
-function env(string $option): string
-{
-    return $_ENV[$option];
-}
