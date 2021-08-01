@@ -10,6 +10,11 @@ class Controller
 {
     private ObjectArray $middlewaresArray;
 
+    public function __construct()
+    {
+        $this->middlewares();
+    }
+
     protected function middlewares(): ObjectArray
     {
         $this->middlewaresArray = new ObjectArray(Middleware::class);

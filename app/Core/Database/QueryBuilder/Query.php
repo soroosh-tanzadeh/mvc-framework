@@ -2,6 +2,7 @@
 
 namespace App\Core\Database\QueryBuilder;
 
+use App\Core\Database\Model;
 use PDO;
 use App\Core\Database\QueryBuilder\Queries\{Insert, Select, Update, Delete};
 
@@ -62,12 +63,12 @@ class Query
      *
      * @throws Exception
      */
-    public function from(?string $table = null, ?int $primaryKey = null): Select
+    public function from(?string $table = null, ?int $primaryKey = null, string $model = null): Select
     {
         $this->setTableName($table);
         $table = $this->getFullTableName();
 
-        $query = new Select($this, $table);
+        $query = new Select($this, $table, $model);
 
         if ($primaryKey !== null) {
             $tableTable = $query->getFromTable();

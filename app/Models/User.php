@@ -6,7 +6,7 @@ use App\Core\Database\Model;
 
 class User extends Model
 {
-    protected function getTableName()
+    protected static function getTableName()
     {
         return "users";
     }

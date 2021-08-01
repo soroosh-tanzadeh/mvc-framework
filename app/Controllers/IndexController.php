@@ -11,21 +11,13 @@ use App\Models\User;
 class IndexController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middlewares()->add(new SampleMiddleware());
-    }
-
     public function index(Request $request)
     {
+        return view("index", ['app' => env("APP_NAME")]);
+    }
 
-        $user = new User();
-        $user->name = $request->get("name");
-        $user->username = $request->get("username");
-        $user->password = $request->get("password");
-        $user->email = $request->get("email");
-        $user->insert();
-
-        return view("index", ['app' => env("APP_NAME"), "id" => $id]);
+    public function contact(Request $request)
+    {
+        return view("contact", ['user' => User::findByKey($request->get("id"))]);
     }
 }

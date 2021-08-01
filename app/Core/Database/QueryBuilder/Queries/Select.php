@@ -2,6 +2,7 @@
 
 namespace App\Core\Database\QueryBuilder\Queries;
 
+use App\Core\Database\Model;
 use App\Core\Database\QueryBuilder\{Exception, Query, Utilities};
 
 /**
@@ -15,13 +16,14 @@ class Select extends Common implements \Countable
     /** @var mixed */
     private $fromAlias;
 
+
     /**
      * SelectQuery constructor.
      *
      * @param Query     $mvcquerybuilder
      * @param           $from
      */
-    function __construct(Query $mvcquerybuilder, $from)
+    function __construct(Query $mvcquerybuilder, $from, Model $model = null)
     {
         $clauses = [
             'SELECT'   => ', ',
@@ -133,7 +135,6 @@ class Select extends Common implements \Countable
                 return $row[$column];
             }
         }
-
         return $row;
     }
 
